@@ -15,7 +15,7 @@
  *   - Linux: apt-get install ffmpeg
  */
 
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -62,8 +62,8 @@ function compressFile(wavPath) {
     console.log(`🔄 Converting ${path.basename(wavPath)}...`);
 
     // High quality MP3 conversion
-    execSync(
-      `ffmpeg -i "${wavPath}" -codec:a libmp3lame -qscale:a 2 "${mp3Path}"`,
+    execFileSync(
+      'ffmpeg', ['-i', wavPath, '-codec:a', 'libmp3lame', '-qscale:a', '2', mp3Path],
       { stdio: 'ignore' },
     );
 

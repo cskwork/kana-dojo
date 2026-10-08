@@ -17,7 +17,7 @@
  *   - Linux: apt-get install ffmpeg
  */
 
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -64,8 +64,8 @@ function compressToOpus(wavPath) {
     // -vbr on: Variable bitrate for better quality
     // -application voip: tuned for speech/transients, works well for micro-SFX
     // -map_metadata -1: strip metadata to minimize bytes
-    execSync(
-      `ffmpeg -y -i "${wavPath}" -ac 1 -ar 24000 -c:a libopus -application voip -b:a 24k -vbr on -compression_level 10 -map_metadata -1 "${opusPath}"`,
+    execFileSync(
+      'ffmpeg', ['-y', '-i', wavPath, '-ac', '1', '-ar', '24000', '-c:a', 'libopus', '-application', 'voip', '-b:a', '24k', '-vbr', 'on', '-compression_level', '10', '-map_metadata', '-1', opusPath],
       { stdio: 'ignore' },
     );
 

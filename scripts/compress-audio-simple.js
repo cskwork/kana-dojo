@@ -9,7 +9,7 @@
  * Usage: node scripts/compress-audio-simple.js
  */
 
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
@@ -116,8 +116,8 @@ function compressFile(wavPath, ffmpegPath) {
   try {
     console.log(`🔄 Converting ${path.basename(wavPath)}...`);
 
-    execSync(
-      `"${ffmpegPath}" -i "${wavPath}" -codec:a libmp3lame -qscale:a 2 "${mp3Path}" -y`,
+    execFileSync(
+      ffmpegPath, ['-i', wavPath, '-codec:a', 'libmp3lame', '-qscale:a', '2', mp3Path, '-y'],
       { stdio: 'ignore' },
     );
 
